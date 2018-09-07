@@ -1,0 +1,2 @@
+class CoasterModelType < ApplicationRecord
+end

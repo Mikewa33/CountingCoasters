@@ -1,0 +1,2 @@
+class CoasterCompany < ApplicationRecord
+end
