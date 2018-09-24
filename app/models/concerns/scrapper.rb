@@ -114,6 +114,15 @@ module Scrapper
                 website_link = ''
                 lat = nil
                 long = nil
+                stats = coaster_html.css('#statTable')
+                if (stats.length > 0)
+                    coaster_length = stats.at('th:contains("Length")') ? stats.at('th:contains("Length")').next_element.text : nil
+                    coaster_height = stats.at('th:contains("Height")') ? stats.at('th:contains("Height")').next_element.text : nil
+                    coaster_drop =  stats.at('th:contains("Drop")') ?  stats.at('th:contains("Drop")').next_element.text : nil
+                    coaster_speed = stats.at('th:contains("Speed")') ? stats.at('th:contains("Speed")').next_element.text : nil
+                    coaster_inversions = stats.at('th:contains("Inversions")') ? stats.at('th:contains("Inversions")').next_element.text : nil
+                    coaster_duration = stats.at('th:contains("Duration")') ? stats.at('th:contains("Duration")').next_element.text : nil
+                end
                 maps = coaster_html.css('#popMaps')
                 maps.css('div').each do |map|
                     if lat.nil? && long.nil?
@@ -130,7 +139,10 @@ module Scrapper
                 end
                 does_coaster_exist = Coaster.find_by_api_id(id)
                 if !does_coaster_exist
-                   does_coaster_exist = Coaster.create!(api_id: id,park_id: Park.find_by_api_id(park_id).id, name: name, coaster_type: coaster_type, coaster_design: coaster_design , status: status, opened: opened, lat: lat, long: long)
+                   does_coaster_exist = Coaster.create!(api_id: id,park_id: Park.find_by_api_id(park_id).id, park_name: Park.find_by_api_id(park_id).name, name: name, coaster_type: coaster_type, 
+                                                        coaster_design: coaster_design , status: status, opened: opened, lat: lat, long: long,
+                                                        coaster_length: coaster_length, coaster_height: coaster_height, coaster_drop: coaster_drop,
+                                                        coaster_speed: coaster_speed, coaster_inversions: coaster_inversions, coaster_duration: coaster_duration)
                 end
                 scroll_two = coaster_html.css('.scroll')
                 make_model_text = scroll_two[1].text

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180901055432) do
+ActiveRecord::Schema.define(version: 20180918062903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,13 @@ ActiveRecord::Schema.define(version: 20180901055432) do
     t.decimal "lat", precision: 10, scale: 6
     t.decimal "long", precision: 10, scale: 6
     t.integer "api_id"
+    t.string "park_name"
+    t.string "coaster_length"
+    t.string "coaster_height"
+    t.string "coaster_drop"
+    t.string "coaster_speed"
+    t.string "coaster_inversions"
+    t.string "coaster_duration"
     t.index ["park_id"], name: "index_coasters_on_park_id"
   end
 
@@ -95,6 +102,26 @@ ActiveRecord::Schema.define(version: 20180901055432) do
     t.string "county"
     t.string "district"
     t.string "city"
+  end
+
+  create_table "user_coasters", force: :cascade do |t|
+    t.uuid "user_id"
+    t.bigint "coaster_id"
+    t.boolean "has_rode"
+    t.integer "ride_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coaster_id"], name: "index_user_coasters_on_coaster_id"
+  end
+
+  create_table "user_parks", force: :cascade do |t|
+    t.uuid "user_id"
+    t.bigint "park_id"
+    t.boolean "has_visited"
+    t.integer "visit_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["park_id"], name: "index_user_parks_on_park_id"
   end
 
 end

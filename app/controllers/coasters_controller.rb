@@ -1,5 +1,6 @@
 class CoastersController < ApplicationController
-  before_action :set_coaster, only: [:show, :update, :destroy]
+  before_action :set_coaster, only: [:update, :destroy]
+  before_action :set_coaster, :get_jwt_token, only: [:show]
 
   # GET /coasters
   def index

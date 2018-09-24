@@ -1,3 +1,4 @@
 class ModelLine < ApplicationRecord
-    has_one :company
+    belongs_to :company
+    has_many :coaster_models
 end
